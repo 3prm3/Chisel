@@ -4,7 +4,10 @@
 build/
 out/
 classes/
-libs/
+
+# eclipse
+
+*.launch
 
 # idea
 
@@ -21,8 +24,10 @@ bin/
 .classpath
 .project
 
+# macos
+
+*.DS_Store
+
 # fabric
 
 run/
-files/
-temp/

@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.2.7-SNAPSHOT'
+	id 'fabric-loom' version '0.6-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -10,38 +10,38 @@ archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
 
-minecraft {
+repositories {
+	maven {
+		url = "https://jitpack.io/"
+	}
+	maven {
+		url = "https://raw.githubusercontent.com/Devan-Kerman/Devan-Repo/master/"
+	}
 }
 
 dependencies {
+	//to change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-	modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
+	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-	modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	modCompile "io.github.Nuclearfarts:cbt:0.1.0"
-	modCompile "io.github.prospector:modmenu:${project.mod_menu_version}"
-	modCompile 'me.shedaniel:RoughlyEnoughItems:3.6.2'
+	// Fabric API. This is technically optional, but you probably want it anyway.
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+	modImplementation "com.github.PepperCode1:ConnectedTexturesMod-Fabric:${project.ctmf_version}"
+
+	modImplementation "net.devtech:arrp:${project.arrp_version}"
 }
 
-repositories {
-	maven { url  "https://dl.bintray.com/spinnery/Spinnery" }
-	maven { url 'http://server.bbkr.space:8081/artifactory/libs-release' }
-	maven { url 'http://server.bbkr.space:8081/artifactory/libs-snapshot' }
-	maven { url "https://minecraft.curseforge.com/api/maven" }
-	mavenLocal()
+minecraft {
+	accessWidener "src/main/resources/chisel.accesswidener"
 }
 
 processResources {
 	inputs.property "version", project.version
 
-	from(sourceSets.main.resources.srcDirs) {
-		include "fabric.mod.json"
+	filesMatching("fabric.mod.json") {
 		expand "version": project.version
-	}
-
-	from(sourceSets.main.resources.srcDirs) {
-		exclude "fabric.mod.json"
 	}
 }
 
